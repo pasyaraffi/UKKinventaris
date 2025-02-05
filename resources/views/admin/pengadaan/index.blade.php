@@ -64,7 +64,7 @@
                             <a href="{{ route('pengadaan.edit', $pengadaan->id_pengadaan) }}"
                                 class="btn btn-warning btn-sm">Edit</a>
                             <a href="{{ route('pengadaan.depresiasi', $pengadaan->id_pengadaan) }}"
-                                class="btn btn-info btn-sm">Depresiasi</a>
+                                class="btn btn-info btn-sm">Detail</a>
                             <form action="{{ route('pengadaan.destroy', $pengadaan->id_pengadaan) }}" method="POST"
                                 style="display:inline-block;">
                                 @csrf

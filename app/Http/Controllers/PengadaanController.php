@@ -138,7 +138,6 @@ class PengadaanController extends Controller
                 'nilai' => $pengadaan->getNilaiDepresiasiPerBulan($i)
             ];
         }
-
         return view('admin.pengadaan.depresiasi', compact('pengadaan', 'depresiasiBulanan'));
     }
 

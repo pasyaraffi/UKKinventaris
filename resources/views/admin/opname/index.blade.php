@@ -24,7 +24,7 @@
             @forelse($opnames as $opname)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $opname->pengadaan->kode_pengadaan ?? 'Tidak ditemukan' }}</td>
+                    <td>{{ $opname->pengadaan->id_pengadaan ?? 'Tidak ditemukan' }}</td>
                     <td>{{ $opname->tgl_opname }}</td>
                     <td>{{ $opname->kondisi }}</td>
                     <td>{{ $opname->keterangan }}</td>

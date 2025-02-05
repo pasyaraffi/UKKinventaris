@@ -81,7 +81,10 @@ class Pengadaan extends Model
 
     public function hitungNilaiPenyusutan()
     {
-        return round($this->harga_barang / ($this->depresiasi->lama_depresiasi ?? 60));
+        if ($this->depresiasi && $this->depresiasi->lama_depresiasi > 0) {
+            return $this->nilai_barang / $this->depresiasi->lama_depresiasi;
+        }
+        return 0;
     }
 
     public function hitungNilaiSisaBulan($bulanKe)
