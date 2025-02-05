@@ -36,7 +36,7 @@
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Bulan ke-</th>
+                            <th>Bulan ke:</th>
                             <th>Nilai Penyusutan</th>
                             <th>Nilai Sisa Asset</th>
                         </tr>
