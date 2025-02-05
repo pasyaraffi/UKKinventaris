@@ -129,17 +129,10 @@ class PengadaanController extends Controller
 
     public function showDepresiasi($id)
     {
-        $pengadaan = Pengadaan::findOrFail($id);
-        $depresiasiBulanan = [];
-
-        for ($i = 1; $i <= ($pengadaan->depresiasi->bulan ?? 60); $i++) {
-            $depresiasiBulanan[] = [
-                'bulan' => $i,
-                'nilai' => $pengadaan->getNilaiDepresiasiPerBulan($i)
-            ];
-        }
-
-        return view('admin.pengadaan.depresiasi', compact('pengadaan', 'depresiasiBulanan'));
+        $pengadaan = Pengadaan::with(['masterBarang', 'depresiasi'])->findOrFail($id);
+        $detailPenyusutan = $pengadaan->getDetailPenyusutan();
+        
+        return view('admin.pengadaan.depresiasi', compact('pengadaan', 'detailPenyusutan'));
     }
 
     // Menghapus Pengadaan

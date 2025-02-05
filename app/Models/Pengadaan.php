@@ -63,31 +63,51 @@ class Pengadaan extends Model
 
     public function hitungDepresiasi()
     {
-        $lamaBulan = $this->depresiasi->bulan ?? 60; // Default 60 bulan jika tidak ada
-        return $this->harga_barang / $lamaBulan;
+        $lamaBulan = $this->depresiasi->lama_depresiasi ?? 4;
+        return $this->nilai_barang / $lamaBulan;
+    }
+
+    public function getDetailPenyusutan()
+    {
+        $lamaBulan = $this->depresiasi->lama_depresiasi ?? 4;
+        $nilaiPenyusutanPerBulan = $this->hitungDepresiasi();
+        $nilaiSisa = $this->nilai_barang;
+        $detail = [];
+
+        for ($i = 1; $i <= $lamaBulan; $i++) {
+            $detail[] = [
+                'bulan' => $i,
+                'nilai_penyusutan' => $nilaiPenyusutanPerBulan,
+                'nilai_sisa' => $i == $lamaBulan ? 0 : max(0, $nilaiSisa - ($nilaiPenyusutanPerBulan * $i))
+            ];
+        }
+
+        return $detail;
     }
 
     public function getNilaiDepresiasiPerBulan($bulanKe)
     {
-        $nilaiDepresiasi = $this->hitungDepresiasi();
-        $nilaiAwal = $this->harga_barang;
-
-        for ($i = 1; $i <= $bulanKe; $i++) {
-            $nilaiAwal -= $nilaiDepresiasi;
+        $lamaBulan = $this->depresiasi->lama_depresiasi ?? 4;
+        $nilaiPenyusutan = $this->nilai_barang / $lamaBulan;
+        $nilaiSisa = $this->nilai_barang - ($nilaiPenyusutan * $bulanKe);
+        
+        // Pastikan nilai pada bulan terakhir adalah 0
+        if ($bulanKe >= $lamaBulan) {
+            return 0;
         }
-
-        return max(0, $nilaiAwal); // Tidak boleh kurang dari 0
+        
+        return max(0, $nilaiSisa);
     }
 
     public function hitungNilaiPenyusutan()
     {
-        return round($this->harga_barang / ($this->depresiasi->lama_depresiasi ?? 60));
+        return round($this->nilai_barang / ($this->depresiasi->lama_depresiasi ?? 4));
     }
 
     public function hitungNilaiSisaBulan($bulanKe)
     {
         $penyusutan = $this->hitungNilaiPenyusutan();
-        $nilaiSisa = $this->harga_barang - ($penyusutan * (float)$bulanKe);
+        $nilaiSisa = $this->nilai_barang - ($penyusutan * (float)$bulanKe);
         return max(0, $nilaiSisa);
     }
 }

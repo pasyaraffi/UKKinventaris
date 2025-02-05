@@ -27,7 +27,7 @@ class HitungDepresiasi extends Model
 
     public function hitungNilaiPenyusutan()
     {
-        return round($this->nilai_barang / $this->durasi);
+        return $this->nilai_barang / $this->durasi;
     }
 
     public function hitungNilaiSisaBulan($bulanKe)
@@ -35,6 +35,29 @@ class HitungDepresiasi extends Model
         $penyusutan = $this->hitungNilaiPenyusutan();
         $nilaiSisa = $this->nilai_barang - ($penyusutan * (float)$bulanKe);
         return max(0, $nilaiSisa);
+    }
+
+    public function getDetailPenyusutan()
+    {
+        $penyusutanPerBulan = $this->hitungNilaiPenyusutan();
+        $nilaiSisa = $this->nilai_barang;
+        $detail = [];
+
+        for ($i = 1; $i <= $this->durasi; $i++) {
+            if ($i == $this->durasi) {
+                $nilaiSisa = 0; // Memastikan nilai akhir adalah 0
+            } else {
+                $nilaiSisa -= $penyusutanPerBulan;
+            }
+
+            $detail[] = [
+                'bulan' => $i,
+                'nilai_penyusutan' => $penyusutanPerBulan,
+                'nilai_sisa' => $nilaiSisa
+            ];
+        }
+
+        return $detail;
     }
 }
 

@@ -1,68 +1,68 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
-            <h4>Detail Depresiasi Barang</h4>
-        </div>
-        <div class="card-body">
-            <div class="mb-4">
-                <h5>Informasi Barang</h5>
-                <table class="table">
-                    <tr>
-                        <th>Kode Pengadaan</th>
-                        <td>: {{ $pengadaan->kode_pengadaan }}</td>
-                    </tr>
-                    <tr>
-                        <th>Harga Awal</th>
-                        <td>: Rp {{ number_format($pengadaan->harga_barang, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Nilai Depresiasi per Bulan</th>
-                        <td>: Rp {{ number_format($pengadaan->depresiasi_barang, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Durasi Penyusutan</th>
-                        <td>: {{ $pengadaan->lama_depresiasi }} bulan</td>
-                    </tr>
-                </table>
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Simulasi Penyusutan Asset</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Informasi Asset -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="40%">Kode Pengadaan</th>
+                                    <td>{{ $pengadaan->kode_pengadaan }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nama Barang</th>
+                                    <td>{{ $pengadaan->masterBarang->nama_barang }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nilai Awal Asset</th>
+                                    <td>Rp {{ number_format($pengadaan->nilai_barang, 0, ',', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nilai Penyusutan/Bulan</th>
+                                    <td>Rp {{ number_format($pengadaan->hitungDepresiasi(), 0, ',', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Lama Penyusutan</th>
+                                    <td>{{ $pengadaan->depresiasi->lama_depresiasi }} Bulan</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
 
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Bulan ke-</th>
-                            <th>Nilai Barang</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $nilaiPenyusutanPerBulan = $pengadaan->hitungNilaiPenyusutan();
-                        $nilaiSisa = $pengadaan->nilai_barang;
-                        @endphp
+                    <!-- Tabel Penyusutan -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Bulan Ke-</th>
+                                    <th>Nilai Penyusutan</th>
+                                    <th>Nilai Sisa Asset</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($detailPenyusutan as $detail)
+                                <tr>
+                                    <td>{{ $detail['bulan'] }}</td>
+                                    <td>Rp {{ number_format($detail['nilai_penyusutan'], 0, ',', '.') }}</td>
+                                    <td>Rp {{ number_format($detail['nilai_sisa'], 0, ',', '.') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <tr>
-                            <td>1</td>
-                            <td>Rp {{ number_format($nilaiSisa, 0, ',', '.') }}</td>
-                        </tr>
-
-                        @for ($i = 2; $i <= $pengadaan->durasi; $i++)
-                            @php
-                            $nilaiSisa -= $nilaiPenyusutanPerBulan;
-                            @endphp
-                            <tr>
-                                <td>{{ $i }}</td>
-                                <td>Rp {{ number_format($nilaiSisa, 0, ',', '.') }}</td>
-                            </tr>
-                            @endfor
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="mt-3">
-                <a href="{{ route('pengadaan.index') }}" class="btn btn-secondary">Kembali</a>
+                    <div class="mt-3">
+                        <a href="{{ route('pengadaan.index') }}" class="btn btn-secondary">Kembali</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

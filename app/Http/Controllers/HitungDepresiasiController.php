@@ -77,6 +77,7 @@ class HitungDepresiasiController extends Controller
     public function show($id)
     {
         $depresiasi = HitungDepresiasi::with('pengadaan')->findOrFail($id);
-        return view('admin.hitung_depresiasi.show', compact('depresiasi'));
+        $detailPenyusutan = $depresiasi->getDetailPenyusutan();
+        return view('admin.hitung_depresiasi.show', compact('depresiasi', 'detailPenyusutan'));
     }
 }

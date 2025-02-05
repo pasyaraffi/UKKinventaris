@@ -7,57 +7,48 @@
             <h4>Detail Perhitungan Depresiasi</h4>
         </div>
         <div class="card-body">
-            <div class="mb-4 row">
-                <div class="col-md-6">
-                    <table class="table">
-                        <tr>
-                            <th>Kode Pengadaan</th>
-                            <td>: {{ $depresiasi->pengadaan->kode_pengadaan }}</td>
-                        </tr>
-                        <tr>
-                            <th>Tanggal Hitung</th>
-                            <td>: {{ $depresiasi->tgl_hitung_depresiasi }}</td>
-                        </tr>
-                        <tr>
-                            <th>Nilai Barang Awal</th>
-                            <td>: Rp {{ number_format($depresiasi->nilai_barang, 0, ',', '.') }}</td>
-                        </tr>
-                        <tr>
-                            <th>Durasi Penyusutan</th>
-                            <td>: {{ $depresiasi->durasi }} bulan</td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="mb-4">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="30%">Kode Pengadaan</th>
+                        <td>{{ $depresiasi->pengadaan->kode_pengadaan }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nama Barang</th>
+                        <td>{{ $depresiasi->pengadaan->masterBarang->nama_barang }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nilai Awal Asset</th>
+                        <td>Rp {{ number_format($depresiasi->nilai_barang, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nilai Penyusutan per Bulan</th>
+                        <td>Rp {{ number_format($depresiasi->hitungNilaiPenyusutan(), 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Lama Penyusutan</th>
+                        <td>{{ $depresiasi->durasi }} Bulan</td>
+                    </tr>
+                </table>
             </div>
 
             <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
                         <tr>
                             <th>Bulan ke-</th>
-                            <th>Nilai Barang</th>
+                            <th>Nilai Penyusutan</th>
+                            <th>Nilai Sisa Asset</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                        $nilaiPenyusutanPerBulan = $depresiasi->hitungNilaiPenyusutan();
-                        $nilaiSisa = $depresiasi->nilai_barang;
-                        @endphp
-
+                        @foreach($detailPenyusutan as $detail)
                         <tr>
-                            <td>1</td>
-                            <td>Rp {{ number_format($nilaiSisa, 0, ',', '.') }}</td>
+                            <td>{{ $detail['bulan'] }}</td>
+                            <td>Rp {{ number_format($detail['nilai_penyusutan'], 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($detail['nilai_sisa'], 0, ',', '.') }}</td>
                         </tr>
-
-                        @for ($i = 2; $i <= $depresiasi->durasi; $i++)
-                            @php
-                            $nilaiSisa -= $nilaiPenyusutanPerBulan;
-                            @endphp
-                            <tr>
-                                <td>{{ $i }}</td>
-                                <td>Rp {{ number_format($nilaiSisa, 0, ',', '.') }}</td>
-                            </tr>
-                            @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
