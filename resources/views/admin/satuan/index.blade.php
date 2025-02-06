@@ -2,40 +2,55 @@
 
 @section('content')
 <div class="container mt-5">
-    <h1>Daftar Satuan</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary">Daftar Satuan</h1>
+        <a href="{{ route('satuan.create') }}" class="btn btn-success">Tambah Satuan</a>
+    </div>
 
     @if(session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     @endif
 
-    <a href="{{ route('satuan.create') }}" class="btn btn-primary mb-3">Tambah Satuan</a>
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Satuan</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($data as $satuan)
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="thead-dark">
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $satuan->satuan }}</td>
-                    <td>
-                        <a href="{{ route('satuan.edit', $satuan->id_satuan) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('satuan.destroy', $satuan->id_satuan) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus satuan ini?')">Hapus</button>
-                        </form>
-                    </td>
+                    <th>No</th>
+                    <th>Satuan</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($data as $satuan)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $satuan->satuan }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('satuan.edit', $satuan->id_satuan) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('satuan.destroy', $satuan->id_satuan) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Yakin ingin menghapus satuan ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection

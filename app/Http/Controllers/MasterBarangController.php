@@ -75,9 +75,14 @@ class MasterBarangController extends Controller
 
     public function destroy($id_barang)
     {
-        $masterBarang = MasterBarang::findOrFail($id_barang);
+        try {
+            $masterBarang = MasterBarang::findOrFail($id_barang);
         $masterBarang->delete();
 
-        return redirect()->route('master_barang.index')->with('success', 'Barang berhasil dihapus!');
+        return redirect()->route('master_barang.index')->with('success', 'Barang berhasil dihapus!');    
+        }catch (\Exception $e) {
+            return redirect()->route('master_barang.index')->with('error', 'Master Barang tidak dapat di hapus karena sedang berelasi ke tabel lain!');
+        }
+        
     }
 }

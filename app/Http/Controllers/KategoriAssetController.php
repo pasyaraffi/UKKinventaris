@@ -83,8 +83,13 @@ class KategoriAssetController extends Controller
     // Menghapus Kategori Asset
     public function destroy($id)
     {
-        $kategoriAsset = KategoriAsset::findOrFail($id);
-        $kategoriAsset->delete();
-        return redirect()->route('kategori_asset.index')->with('success', 'Kategori Asset berhasil dihapus!');
+        try {
+            $kategoriAsset = KategoriAsset::findOrFail($id);
+            $kategoriAsset->delete();
+
+            return redirect()->route('kategori_asset.index')->with('success', 'Kategori Asset berhasil dihapus!');
+        } catch (\Exception $e) {
+        return redirect()->route('kategori_asset.index')->with('error', 'Kategori Asset tidak dapat di hapus karena sedang berelasi ke tabel lain!');
+        }
     }
 }

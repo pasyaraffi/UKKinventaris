@@ -79,8 +79,12 @@ class SatuanController extends Controller
     // Menghapus Satuan
     public function destroy($id)
     {
-        $satuan = Satuan::findOrFail($id);
-        $satuan->delete();
-        return redirect()->route('satuan.index')->with('success', 'Satuan berhasil dihapus!');
+        try {
+            $satuan = Satuan::findOrFail($id);
+            $satuan->delete();
+            return redirect()->route('satuan.index')->with('success', 'Satuan berhasil dihapus!');
+        }catch (\Exception $e) {
+            return redirect()->route('satuan.index')->with('error', 'Satuan tidak dapat di hapus karena sedang berelasi ke tabel lain!');
+        }
     }
 }

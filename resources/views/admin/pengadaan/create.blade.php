@@ -141,6 +141,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ route('pengadaan.index') }}" class="btn btn-secondary"><i class="fas fa-times"></i> Batal</a>
     </form>
 </div>
 @endsection

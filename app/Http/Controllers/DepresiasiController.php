@@ -115,17 +115,16 @@ class DepresiasiController extends Controller
     // Menghapus data Depresiasi
     public function destroy($id)
     {
-        // Mencari depresiasi berdasarkan ID
-        $depresiasi = Depresiasi::find($id);
-
-        if (!$depresiasi) {
-            return redirect()->route('depresiasi.index')->with('error', 'Depresiasi tidak ditemukan.');
+        try {
+            // Mencari depresiasi berdasarkan ID
+            $depresiasi = Depresiasi::find($id);
+           // Menghapus data depresiasi
+           $depresiasi->delete();
+           // Redirect dengan pesan sukses
+           return redirect()->route('depresiasi.index')->with('success', 'Depresiasi berhasil dihapus.');
+        }catch (\Exception $e) {
+            return redirect()->route('depresiasi.index')->with('error', 'Depresiasi tidak dapat di hapus karena sedang berelasi ke tabel lain!');
         }
-
-        // Menghapus data depresiasi
-        $depresiasi->delete();
-
-        // Redirect dengan pesan sukses
-        return redirect()->route('depresiasi.index')->with('success', 'Depresiasi berhasil dihapus.');
+        
     }
 }

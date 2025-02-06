@@ -10,7 +10,7 @@
     <style>
         /* Styling Sidebar */
         .sidebar {
-            background: linear-gradient(135deg, #000000, #0056b3);
+            background: linear-gradient(135deg, #000000,rgb(0, 0, 0));
             padding-top: 20px;
             height: 100vh;
             overflow-y: auto;
@@ -66,7 +66,7 @@
         .content-wrapper h1 {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #0056b3;
+            color:rgb(0, 0, 0);
         }
 
         /* Responsive Sidebar */
@@ -240,10 +240,21 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="content-wrapper">
+<div class="content-wrapper bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center p-8">
+    <div class="w-full max-w-4xl bg-white shadow-2xl rounded-2xl p-10 border-t-8 border-purple-600 transition-all duration-300 transform hover:scale-[1.02] animate-fade-in">
         @yield('content')
     </div>
+</div>
 
+<style>
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fade-in 0.6s ease-out;
+}
+</style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

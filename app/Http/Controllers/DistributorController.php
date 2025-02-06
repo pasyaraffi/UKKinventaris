@@ -55,8 +55,13 @@ class DistributorController extends Controller
 
     public function destroy($id)
     {
-        $distributor = Distributor::findOrFail($id);
-        $distributor->delete();
-        return redirect()->route('distributor.index')->with('success', 'Distributor berhasil dihapus.');
+        try {
+            $distributor = Distributor::findOrFail($id);
+            $distributor->delete();
+            return redirect()->route('distributor.index')->with('success', 'Distributor berhasil dihapus.');
+        }catch (\Exception $e) {
+            return redirect()->route('distributor.index')->with('error', 'Distributor tidak dapat di hapus karena sedang berelasi ke tabel lain!');
+        }
+       
     }
 }

@@ -83,8 +83,13 @@ class MerkController extends Controller
     // Menghapus Merk
     public function destroy($id)
     {
-        $merk = Merk::findOrFail($id);
+        try {
+            $merk = Merk::findOrFail($id);
         $merk->delete();
         return redirect()->route('merk.index')->with('success', 'Merk berhasil dihapus!');
+        }catch (\Exception $e) {
+            return redirect()->route('merk.index')->with('error', 'Merk tidak dapat di hapus karena sedang berelasi ke tabel lain!');
+        }
+        
     }
 }

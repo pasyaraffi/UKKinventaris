@@ -87,8 +87,13 @@ class SubKategoriAssetController extends Controller
     // Menghapus Sub Kategori Asset
     public function destroy($id)
     {
-        $subKategoriAsset = SubKategoriAsset::findOrFail($id);
-        $subKategoriAsset->delete();
-        return redirect()->route('sub_kategori_asset.index')->with('success', 'Sub Kategori Asset berhasil dihapus!');
+        try {
+            $subKategoriAsset = SubKategoriAsset::findOrFail($id);
+            $subKategoriAsset->delete();
+
+            return redirect()->route('sub_kategori_asset.index')->with('success', 'Sub Kategori Asset berhasil dihapus!');
+        } catch (\Exception $e) {
+        return redirect()->route( 'sub_kategori_asset.index')->with( 'error', 'Sub Kategori Asset tidak dapat di hapus karena sedang berelasi ke tabel lain!');
     }
+  }
 }

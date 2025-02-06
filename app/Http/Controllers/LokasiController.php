@@ -71,9 +71,14 @@ class LokasiController extends Controller
     // Menghapus data lokasi
     public function destroy($id_lokasi)
     {
-        $lokasi = Lokasi::findOrFail($id_lokasi);
-        $lokasi->delete();
+        try {
+            $lokasi = Lokasi::findOrFail($id_lokasi);
+            $lokasi->delete();
 
-        return redirect()->route('lokasi.index')->with('success', 'Lokasi berhasil dihapus.');
+            return redirect()->route('lokasi.index')->with('success', 'Lokasi berhasil dihapus.');
+        }catch(\Exception $e) {
+            return redirect()->route('lokasi.index')->with('error', 'Lokasi tidak dapat di hapus karena sedang berelasi ke tabel lain!');
+        }
+        
     }
 }

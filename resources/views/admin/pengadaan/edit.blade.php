@@ -25,7 +25,7 @@
             <select name="id_depresiasi" id="id_depresiasi" class="form-control" required>
                 <option value="">Pilih Depresiasi</option>
                 @foreach($depresiasi as $item)
-                    <option value="{{ $item->id_depresiasi }}" {{ $item->id_depresiasi == $pengadaan->id_depresiasi ? 'selected' : '' }}>{{ $item->bulan }}</option>
+                    <option value="{{ $item->id_depresiasi }}" {{ $item->id_depresiasi == $pengadaan->id_depresiasi ? 'selected' : '' }}>{{ $item->lama_depresiasi }}</option>
                 @endforeach
             </select>
         </div>
@@ -36,7 +36,7 @@
             <select name="id_merk" id="id_merk" class="form-control" required>
                 <option value="">Pilih Merk</option>
                 @foreach($merk as $item)
-                    <option value="{{ $item->id_merk }}" {{ $item->id_merk == $pengadaan->id_merk ? 'selected' : '' }}>{{ $item->nama_merk }}</option>
+                    <option value="{{ $item->id_merk }}" {{ $item->id_merk == $pengadaan->id_merk ? 'selected' : '' }}>{{ $item->merk }}</option>
                 @endforeach
             </select>
         </div>
@@ -58,7 +58,7 @@
             <select name="id_sub_kategori_asset" id="id_sub_kategori_asset" class="form-control" required>
                 <option value="">Pilih Sub Kategori</option>
                 @foreach($subKategoriAsset as $item)
-                    <option value="{{ $item->id_sub_kategori_asset }}" {{ $item->id_sub_kategori_asset == $pengadaan->id_sub_kategori_asset ? 'selected' : '' }}>{{ $item->nama_sub_kategori }}</option>
+                    <option value="{{ $item->id_sub_kategori_asset }}" {{ $item->id_sub_kategori_asset == $pengadaan->id_sub_kategori_asset ? 'selected' : '' }}>{{ $item->sub_kategori_asset }}</option>
                 @endforeach
             </select>
         </div>
@@ -132,6 +132,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Perbarui</button>
+        <a href="{{ route('pengadaan.index') }}" class="btn btn-secondary"><i class="fas fa-times"></i> Batal</a>
     </form>
 </div>
 @endsection
